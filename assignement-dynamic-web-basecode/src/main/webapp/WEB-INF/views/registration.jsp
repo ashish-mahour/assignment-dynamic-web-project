@@ -30,6 +30,7 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 <title>Registration</title>
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -45,15 +46,15 @@
 	<div class="container" style="width: 50%">
 		<div class="card">
 			<div class="main-div card-body">
-				<form id="Registration">
+				<form id="registration" method="post" action="/insertData">
 					<div class="form-group">
 						<div class="input-group mb-2">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-users fa"
 									aria-hidden="true"></i></span>
 							</div>
-							<input type="text" class="form-control input-sm" id="inputName"
-								placeholder="Full Name" pattern="[A-za-z]+"
+							<input type="text" class="form-control input-sm" name="inputName"
+								placeholder="Full Name" pattern="[A-za-z\s]+"
 								title="Alphabets are allowed!" required>
 						</div>
 					</div>
@@ -64,7 +65,7 @@
 								<span class="input-group-text"><i class="fa fa-envelope "
 									aria-hidden="true"></i></span>
 							</div>
-							<input type="email" class="form-control input-sm" id="inputEmail"
+							<input type="email" class="form-control input-sm" name="inputEmail"
 								placeholder="Email" required>
 						</div>
 					</div>
@@ -75,7 +76,7 @@
 								<span class="input-group-text"><i class="material-icons"
 									aria-hidden="true" style="font-size: 20px">phone_android</i></span>
 							</div>
-							<input type="text" class="form-control input-sm" id="inputMobile"
+							<input type="text" class="form-control input-sm" name="inputMobile"
 								placeholder="Mobile" pattern="[0-9+]{10,13}"
 								title="Numeric and + symbol are allowed!" required>
 						</div>
@@ -88,7 +89,7 @@
 									aria-hidden="true"></i></span>
 							</div>
 							<input type="text" class="form-control input-sm"
-								id="inputUsername" placeholder="Username"
+								name="inputUsername" placeholder="Username"
 								pattern="[A-za-z0-9@]+"
 								title="Alphanumeric and @ symbol are allowed!" required>
 						</div>
@@ -101,7 +102,7 @@
 									aria-hidden="true" style="font-size: 20px"></i></span>
 							</div>
 							<input type="password" class="form-control input-sm"
-								id="inputPassword" placeholder="Password"
+								name="inputPassword" placeholder="Password"
 								pattern="[A-za-z0-9@#]+"
 								title="Alphanumeric , # and @ symbol are allowed!" required>
 						</div>
@@ -114,14 +115,16 @@
 									<span class="input-group-text"><input type="radio"
 										name="role" value="user" checked="checked"></span>
 								</div>
-								<label class="form-check-label" style = "margin-left: 5px">  User </label>
+								<label class="form-check-label" style="margin-left: 5px">
+									User </label>
 							</div>
 							<div class="form-check-inline">
 								<div class="input-group-prepend">
 									<span class="input-group-text"><input type="radio"
-										name="role" value="admin" ></span>
+										name="role" value="admin"></span>
 								</div>
-								<label class="form-check-label" style = "margin-left: 5px">  Admin </label>
+								<label class="form-check-label" style="margin-left: 5px">
+									Admin </label>
 							</div>
 						</div>
 					</div>
@@ -129,8 +132,10 @@
 					<div class="g-recaptcha"
 						data-sitekey="6Lc_N24UAAAAAKEP4_ZsrNUGN4GpJxNBjfnhnL6w"></div>
 					<br>
+					<label><span class="badge badge-pill badge-success"><%=request.getAttribute("status") %></span></label>
+					<br>
 					<button type="submit" class="btn btn-md login-btn">Register</button>
-
+					
 				</form>
 			</div>
 

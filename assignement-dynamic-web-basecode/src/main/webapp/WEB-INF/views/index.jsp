@@ -38,7 +38,7 @@
 	<div class="container" style="width: 50%">
 		<div class="card">
 			<div class="main-div card-body">
-				<form id="Login">
+				<form id="login" method="post" action="/checkLogin">
 					<div class="form-group">
 						<div class="input-group mb-2">
 						<div class="input-group-prepend">
@@ -46,7 +46,7 @@
 								aria-hidden="true"></i></span> 
 						</div>
 						<input type="text"
-								class="form-control input-sm" id="inputUsername"
+								class="form-control input-sm" name="inputUsername"
 								placeholder="Username" pattern="[A-za-z0-9@]+"
 								title="Alphanumeric and @ symbol are allowed!" required>
 						</div>
@@ -59,13 +59,15 @@
 								class="fa fa-lock fa-lg" aria-hidden="true"></i></span> 
 						</div>
 						<input
-								type="password" class="form-control input-sm" id="inputPassword"
+								type="password" class="form-control input-sm" name="inputPassword"
 								placeholder="Password" pattern="[A-za-z0-9@#]+"
 								title="Alphanumeric , # and @ symbol are allowed!" required>
 						</div>
 					</div>
 					<div class="g-recaptcha"
 						data-sitekey="6Lc_N24UAAAAAKEP4_ZsrNUGN4GpJxNBjfnhnL6w"></div>
+					<br>
+					<label><span class="badge badge-pill badge-danger"><%=request.getAttribute("status") %></span></label>
 					<br>
 					<button type="submit" class="btn btn-md login-btn">Login</button>
 
