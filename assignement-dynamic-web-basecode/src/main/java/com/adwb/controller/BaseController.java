@@ -8,7 +8,12 @@ public class BaseController {
 	
 	@RequestMapping(value = "/")
 	public String getHomePage() {
-		return "/";
+		return "index";
+	}
+	
+	@RequestMapping(value = "/register")
+	public String getRegistrationPage() {
+		return "registration";
 	}
 
 }
