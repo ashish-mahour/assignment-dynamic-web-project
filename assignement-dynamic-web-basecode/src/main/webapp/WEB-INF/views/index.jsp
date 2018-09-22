@@ -22,60 +22,65 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
+
 <title>Login</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<ul class="navbar-nav navbar-brand ml-auto">
 			<li class="nav-item"><a class="nav-link" href="/register"><span
-						class="fa fa-user"></span> Sign Up</a></li>
-			<li class="nav-item"><a class="nav-link active" href="/"><span class="fa fa-unlock-alt"></span>
-						Login</a></li>
+					class="fa fa-user"></span> Sign Up</a></li>
+			<li class="nav-item"><a class="nav-link active" href="/"><span
+					class="fa fa-unlock-alt"></span> Login</a></li>
 		</ul>
 
 	</nav>
 	<br>
-	<div class="container" style="width: 50%">
+	<div class="container" style="width: 50%;">
 		<div class="card">
 			<div class="main-div card-body">
-				<form id="login" method="post" action="/checkLogin">
+				<form id="login" method="post" action="/checkLogin?id=0&name=''">
 					<div class="form-group">
 						<div class="input-group mb-2">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fa fa-users fa"
-								aria-hidden="true"></i></span> 
-						</div>
-						<input type="text"
-								class="form-control input-sm" name="inputUsername"
-								placeholder="Username" pattern="[A-za-z0-9@]+"
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-users fa"
+									aria-hidden="true"></i></span>
+							</div>
+							<input type="text" class="form-control input-sm"
+								name="inputUsername" placeholder="Username"
+								pattern="[A-za-z0-9@]+"
 								title="Alphanumeric and @ symbol are allowed!" required>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i
-								class="fa fa-lock fa-lg" aria-hidden="true"></i></span> 
-						</div>
-						<input
-								type="password" class="form-control input-sm" name="inputPassword"
-								placeholder="Password" pattern="[A-za-z0-9@#]+"
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i
+									class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							</div>
+							<input type="password" class="form-control input-sm"
+								name="inputPassword" placeholder="Password"
+								pattern="[A-za-z0-9@#]+"
 								title="Alphanumeric , # and @ symbol are allowed!" required>
 						</div>
 					</div>
 					<div class="g-recaptcha"
 						data-sitekey="6Lc_N24UAAAAAKEP4_ZsrNUGN4GpJxNBjfnhnL6w"></div>
-					<br>
-					<label><span class="badge badge-pill badge-danger"><%=request.getAttribute("status") %></span></label>
+					<br> <label><span
+						class="badge badge-pill badge-danger" id="status"><%=request.getAttribute("status")%></span></label>
 					<br>
 					<button type="submit" class="btn btn-md login-btn">Login</button>
+					<br>
+					
+
 
 				</form>
 			</div>
 
 		</div>
 	</div>
+
 
 </body>
 </html>

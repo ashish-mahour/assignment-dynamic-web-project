@@ -110,6 +110,7 @@ public class BaseController {
 			JSONObject jsonObject = new JSONObject(stringBuilder.toString());
 			if ((boolean) jsonObject.get("success")) {
 				List<UserData> userDatas = userDAO.getAllData();
+
 				for (UserData userData : userDatas) {
 					if (userData.getUsername().equalsIgnoreCase(request.getParameter("inputUsername"))
 							&& userData.getPassword().equalsIgnoreCase(request.getParameter("inputPassword"))
@@ -126,6 +127,8 @@ public class BaseController {
 					}
 				}
 
+			} else {
+				request.setAttribute("status", "Please check the recapcha!");
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -141,10 +144,11 @@ public class BaseController {
 		request.setAttribute("username", userData.getName());
 		return "adminpanel";
 	}
-	
+
 	@RequestMapping(value = "/userpanel")
 	public String openUserPanel(HttpServletRequest request, @ModelAttribute("id") int id) {
-		request.setAttribute("username", id);
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("username", userData.getName());
 		return "userpanel";
 	}
 
