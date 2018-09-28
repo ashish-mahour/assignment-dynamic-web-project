@@ -141,6 +141,7 @@ public class BaseController {
 	@RequestMapping(value = "/adminpanel")
 	public String openAdminPanel(HttpServletRequest request, @ModelAttribute("id") int id) {
 		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
 		return "adminpanel";
 	}
@@ -148,6 +149,7 @@ public class BaseController {
 	@RequestMapping(value = "/userpanel")
 	public String openUserPanel(HttpServletRequest request, @ModelAttribute("id") int id) {
 		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
 		return "userpanel";
 	}

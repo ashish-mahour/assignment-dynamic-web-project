@@ -29,6 +29,20 @@
 		</ul>
 	</nav>
 	<br>
+	<div class="container justify-content-center">
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>SNo.</th>
+					<th>Company Name</th>
+					<th>Created By.</th>
+					<th>Company Address</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			
+		</table>
+	</div>
 
 </body>
 </html>
