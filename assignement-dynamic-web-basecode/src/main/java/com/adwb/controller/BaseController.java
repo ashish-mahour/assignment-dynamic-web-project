@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.adwb.dao.api.CompanyDAO;
 import com.adwb.dao.api.UserDAO;
+import com.adwb.dao.entity.CompanyData;
 import com.adwb.dao.entity.UserData;
 
 @Controller
@@ -27,6 +29,10 @@ public class BaseController {
 
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	CompanyDAO companyDao;
+	
 
 	@RequestMapping(value = "/")
 	public String getHomePage(HttpServletRequest request) {
@@ -143,6 +149,7 @@ public class BaseController {
 		UserData userData = userDAO.getOne(id);
 		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
+		request.setAttribute("listOfCompanies", companyDao.getAll());
 		return "adminpanel";
 	}
 
@@ -152,6 +159,38 @@ public class BaseController {
 		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
 		return "userpanel";
+	}
+	
+	@RequestMapping(value = "/compCreatebyAdmin")
+	public String openCompCreatebyAdmin(HttpServletRequest request, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
+		request.setAttribute("username", userData.getName());
+		CompanyData companyData = new CompanyData(0, request.getParameter("compName"),request.getParameter("compAddress"), id, "Admin" , true);
+		companyDao.insert(companyData);
+		redirectAttributes.addAttribute("id", userData.getId());
+		return "redirect:/adminpanel";
+	}
+	
+	@RequestMapping(value = "/compUpdatebyAdmin")
+	public String openCompUpdatebyAdmin(HttpServletRequest request, @ModelAttribute("id") int id,@ModelAttribute("compId") int compId,@ModelAttribute("status") boolean status, RedirectAttributes redirectAttributes) {
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
+		request.setAttribute("username", userData.getName());
+		CompanyData companyData = new CompanyData(compId, request.getParameter("compName"),request.getParameter("compAddress"), id, "Admin" , status);
+		companyDao.update(companyData);
+		redirectAttributes.addAttribute("id", userData.getId());
+		return "redirect:/adminpanel";
+	}
+	
+	@RequestMapping(value = "/compDeletebyAdmin")
+	public String openCompDeletebyAdmin(HttpServletRequest request, @ModelAttribute("id") int id,@ModelAttribute("compId") int compId, RedirectAttributes redirectAttributes) {
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
+		request.setAttribute("username", userData.getName());
+		companyDao.delete(compId);
+		redirectAttributes.addAttribute("id", userData.getId());
+		return "redirect:/adminpanel";
 	}
 
 }

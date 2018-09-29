@@ -16,6 +16,9 @@ public class CompanyData {
 	private String compAddress;
 	private int creatorId;
 	private String creatorName;
+	private boolean status;
+	public CompanyData() {
+	}
 	public int getId() {
 		return id;
 	}
@@ -46,12 +49,19 @@ public class CompanyData {
 	public void setCreatorName(String creatorName) {
 		this.creatorName = creatorName;
 	}
-	public CompanyData(int id, String compName, String compAddress, int creatorId, String creatorName) {
+	public CompanyData(int id, String compName, String compAddress, int creatorId, String creatorName,boolean status) {
 		super();
 		this.id = id;
 		this.compName = compName;
 		this.compAddress = compAddress;
 		this.creatorId = creatorId;
 		this.creatorName = creatorName;
+		this.status = status;
+	}
+	public boolean getStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 }
