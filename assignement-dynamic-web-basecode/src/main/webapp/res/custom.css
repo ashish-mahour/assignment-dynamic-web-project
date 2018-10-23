@@ -1,7 +1,16 @@
 @charset "ISO-8859-1";
-.login-btn{
-	background-color: #009933;
-	color: #fff;
-	width: 20%;
+input{
+  border:none;
+  background-color: transparent;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.fa-user-circle-o{
+  color: gray;
+}

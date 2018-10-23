@@ -43,7 +43,7 @@
 
 	</nav>
 	<br>
-	<div class="container" style="width: 50%">
+	<div class="container d-flex justify-content-center" style="width: 80%">
 		<div class="card">
 			<div class="main-div card-body">
 				<form id="registration" method="post" action="/insertData">
@@ -134,7 +134,7 @@
 					<br>
 					<label><span class="badge badge-pill badge-success"><%=request.getAttribute("status") %></span></label>
 					<br>
-					<button type="submit" class="btn btn-md login-btn">Register</button>
+					<button type="submit" class="btn btn-md btn-success">Register</button>
 					
 				</form>
 			</div>

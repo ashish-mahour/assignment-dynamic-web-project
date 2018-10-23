@@ -158,6 +158,7 @@ public class BaseController {
 		UserData userData = userDAO.getOne(id);
 		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
+		request.setAttribute("listOfCompanies", companyDao.getAll());
 		return "userpanel";
 	}
 	
@@ -177,7 +178,8 @@ public class BaseController {
 		UserData userData = userDAO.getOne(id);
 		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
-		CompanyData companyData = new CompanyData(compId, request.getParameter("compName"),request.getParameter("compAddress"), id, "Admin" , status);
+		CompanyData company = companyDao.getOne(compId);
+		CompanyData companyData = new CompanyData(compId, request.getParameter("compName"),request.getParameter("compAddress"), company.getCreatorId(), company.getCreatorName() , company.getStatus());
 		companyDao.update(companyData);
 		redirectAttributes.addAttribute("id", userData.getId());
 		return "redirect:/adminpanel";
@@ -189,6 +191,29 @@ public class BaseController {
 		request.setAttribute("uid", id);
 		request.setAttribute("username", userData.getName());
 		companyDao.delete(compId);
+		redirectAttributes.addAttribute("id", userData.getId());
+		return "redirect:/adminpanel";
+	}
+	
+	@RequestMapping(value = "/compCreatebyUser")
+	public String openCompCreatebyUser(HttpServletRequest request, @ModelAttribute("id") int id, RedirectAttributes redirectAttributes) {
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
+		request.setAttribute("username", userData.getName());
+		CompanyData companyData = new CompanyData(0, request.getParameter("compName"),request.getParameter("compAddress"), id, userData.getName(), false);
+		companyDao.insert(companyData);
+		redirectAttributes.addAttribute("id", userData.getId());
+		return "redirect:/userpanel";
+	}
+	
+	@RequestMapping(value = "/compApprovebyAdmin")
+	public String openCompApprovebyAdmin(HttpServletRequest request, @ModelAttribute("id") int id,@ModelAttribute("compId") int compId,@ModelAttribute("status") boolean status, RedirectAttributes redirectAttributes) {
+		UserData userData = userDAO.getOne(id);
+		request.setAttribute("uid", id);
+		request.setAttribute("username", userData.getName());
+		CompanyData company = companyDao.getOne(compId);
+		CompanyData companyData = new CompanyData(compId, request.getParameter("compName"),request.getParameter("compAddress"), company.getCreatorId(), company.getCreatorName(), status);
+		companyDao.update(companyData);
 		redirectAttributes.addAttribute("id", userData.getId());
 		return "redirect:/adminpanel";
 	}

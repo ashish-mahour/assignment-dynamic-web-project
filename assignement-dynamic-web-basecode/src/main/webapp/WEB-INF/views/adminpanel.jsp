@@ -24,9 +24,10 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <title>Administrator Panel</title>
 </head>
 <body>
@@ -37,23 +38,31 @@
 	%>
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<ul class="navbar-nav navbar-brand ml-auto">
-			<li class="nav-item"><a class="nav-link"
-				href="/adminpanel?id=<%=request.getAttribute("uid")%>"><span
-					class="fa fa-user"></span> Welcome <%=request.getAttribute("username")%></a></li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle"
+				href="/adminpanel?id=<%=request.getAttribute("uid")%>"
+				data-toggle="dropdown"><span class="fa fa-user"></span> Welcome
+					<%=request.getAttribute("username")%></a>
+				<div class="dropdown-menu bg-light">
+					<a class="dropdown-item" href="/">Logout</a>
+				</div></li>
 		</ul>
 	</nav>
 	<br>
-	<div class="container">
+	<div class="container" style="width: 100%">
 		<div class="bg-dark d-flex justify-content-end">
-				<div class="input-group mb-2" style="width: 50%; padding: 10px;">
-					<input type="text" class="form-control input-sm" name="search" id="search"
-						placeholder="Search" pattern="[A-za-z0-9\s]+"
-						title="Alphanumics are allowed!">
-					<div class="input-append">
-						<button class="btn btn-success" id="searchBtn">Search</button>
-						<button class="btn btn-info" id="restoreBtn">Restore</button>
-					</div>
+			<div class="input-group mb-2" style="width: 50%; padding: 10px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fa fa-search fa"></i></span>
 				</div>
+				<input type="text" class="form-control input-sm"
+					name="search" id="search" placeholder="Search"
+					pattern="[A-za-z0-9\s]+" title="Alphanumics are allowed!">
+				<div class="input-group-append">
+					<button class="btn btn-success" id="searchBtn">Search</button>
+					<button class="btn btn-info" id="restoreBtn">Restore</button>
+				</div>
+			</div>
 		</div>
 		<table class="table table-striped">
 			<thead class="thead-dark">
@@ -65,9 +74,11 @@
 					<th>Actions</th>
 				</tr>
 			</thead>
+			<c:set var="count" value="1"></c:set>
 			<c:forEach var="compData" items="${companyDatas}">
 				<tr>
-					<td>${compData.id}</td>
+					<td><c:out value="${count}"></c:out></td>
+					<c:set var="count" value="${count+1}"></c:set>
 					<td>${compData.compName}</td>
 					<td>${compData.creatorName}</td>
 					<td>${compData.compAddress}</td>
@@ -76,47 +87,62 @@
 							data-toggle="modal" data-target="#createOrUpdate">Edit</button>
 						<button class="btn btn-danger" id="delete${compData.id}">Delete</button>
 						<c:if test="${not compData.status}">
-							<button class="btn btn-success" id="approve${compData.id}">Approve</button>	
+							<button class="btn btn-success" id="approveComp${compData.id}">Approve</button>
 						</c:if>
 					</td>
 				</tr>
 			</c:forEach>
 
 		</table>
-		<button class="btn btn-success" data-toggle="modal"
-			data-target="#createOrUpdate" id="newComp">New Company</button>
+		<button class="btn btn-primary" data-toggle="modal"
+			data-target="#createOrUpdate" id="newComp" style="width: 20%;">Add
+			New Company</button>
 	</div>
 	<script>
 		<c:forEach var="compData" items="${companyDatas}">
 		$("#edit${compData.id}").click(function() {
 			var element = $(this).closest("tr");
-			var id = element.find("td:eq(0)").text();
 			var name = element.find("td:eq(1)").text();
 			var address = element.find("td:eq(3)").text();
-			$("#compId").val(id);
+			var creator = element.find("td:eq(2)").text();
+			$("#compId").val(${compData.id});
 			$("#compName").val(name);
 			$("#compAddress").val(address);
+			$("#creator").val(creator);
 			$("#modalTitle").text("Update Company Details");
 			$("#form1").attr("action", "/compUpdatebyAdmin");
 		});
 
 		$("#delete${compData.id}").click(function() {
 			var element = $(this).closest("tr");
-			var id = element.find("td:eq(0)").text();
-			$("#compId").val(id);
+			$("#compId").val(${compData.id});
 			$("#form1").attr("action", "/compDeletebyAdmin");
+			$("#form1").submit();
+		});
+		
+		$("#approveComp${compData.id}").click(function() {
+			var element = $(this).closest("tr");
+			var id = element.find("td:eq(0)").text();
+			var name = element.find("td:eq(1)").text();
+			var creator = element.find("td:eq(2)").text();
+			var address = element.find("td:eq(3)").text();
+			$("#compId").val(${compData.id});
+			$("#compName").val(name);
+			$("#compAddress").val(address);
+			$("#creator").val(creator);
+			$("#form1").attr("action", "/compApprovebyAdmin");
 			$("#form1").submit();
 		});
 
 		</c:forEach>
-
+		
 		$("#newComp").click(function() {
 			$("#compName").val("");
 			$("#compAddress").val("");
 			$("#modalTitle").text("Add New Company");
 		});
 
-		$("#searchBtn")
+		 $("#searchBtn")
 				.click(
 						function() {
 							$("table tr")
@@ -137,13 +163,15 @@
 													$(this).hide();
 												}
 											});
-						});
+						}); 
+						
 
 		$("#restoreBtn").click(function() {
 			$("table tr").each(function() {
 				$(this).show();
 			});
 		});
+		
 	</script>
 
 	<div class="modal" id="createOrUpdate">
@@ -158,7 +186,7 @@
 						type="hidden" id="status" name="status" value="true">
 					<div class="modal-body">
 						<div class="input-group">
-							<div class="input-prepend">
+							<div class="input-group-prepend">
 								<span class="input-group-text">Name</span>
 							</div>
 							<input type="text" class="form-control" name="compName"
@@ -168,7 +196,7 @@
 						</div>
 						<br>
 						<div class="input-group">
-							<div class="input-prepend">
+							<div class="input-group-prepend">
 								<span class="input-group-text">Address</span>
 							</div>
 							<input type="text" class="form-control"
@@ -178,12 +206,12 @@
 						</div>
 						<br>
 						<div class="input-group">
-							<div class="input-prepend">
+							<div class="input-group-prepend">
 								<span class="input-group-text">Created by</span>
 							</div>
 							<input type="text" class="form-control"
-								placeholder="<%=request.getAttribute("username")%>" id="creator"
-								disabled="disabled">
+								value="<%=request.getAttribute("username")%>" id="creator"
+								name="creator" disabled="disabled">
 						</div>
 					</div>
 					<br>
@@ -199,9 +227,6 @@
 		</div>
 
 	</div>
-	<script>
-		
-	</script>
 
 </body>
 </html>

@@ -36,8 +36,8 @@
 
 	</nav>
 	<br>
-	<div class="container" style="width: 50%;">
-		<div class="card">
+	<div class="container d-flex justify-content-center" style="width: 80%;">
+		<div class="card ">
 			<div class="main-div card-body">
 				<form id="login" method="post" action="/checkLogin?id=0&name=''">
 					<div class="form-group">
@@ -70,7 +70,7 @@
 					<br> <label><span
 						class="badge badge-pill badge-danger" id="status"><%=request.getAttribute("status")%></span></label>
 					<br>
-					<button type="submit" class="btn btn-md login-btn">Login</button>
+					<button type="submit" class="btn btn-md btn-success">Login</button>
 					<br>
 					
 
